@@ -1,0 +1,229 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>CSC466 Final Project
+  </title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
+</head>
+
+<body style="background-color: #fffff1">
+  <div class="container-fluid pt-5" style='width: 80%;' >
+      <h3>
+        Line-Search
+      </h3>
+      <h5>
+        Instead of using a constant value for \(\alpha\) during our algorithms, it would be better to choose an \(\alpha_k \) at each iteration, that acts to minimize  </h5>
+        <div class='d-flex justify-content-center mb-3'>
+          <h5 class='mx-auto'>             \(f(x_k + \alpha p_k) \)</h5>
+      </div>
+      <h5>
+        Using the function with 2 variables from the previous page and the same intial starting values, we calculate \(\alpha_k\) at every step of the iteration. 
+      </h5>
+      <h5 class='mb-4'>
+        To compute \(\alpha_0\), we must conduct one dimensional minimization of \(f\) as a function of \(\alpha\) along the negative gradient.
+      </h5>
+      <div class='d-flex justify-content-center mb-3'>
+        <h5 class='mx-auto'>
+          \(f(x_0+ \alpha_0 (-p_0)) = 0.5(5-5\alpha_0)^2 + 2.5(1-5\alpha_0)^2\),
+        </h5>
+      </div>
+      <h5>
+        Since \(f(x_0+ \alpha_0 (-p_0))' = 150x-50\), then solving for the root of the derivative, we get  
+        \(\alpha_0 = \frac{1}{3}\), which is the same as what we chose to be our constant value for \(\alpha\) before. 
+      </h5>
+      <h5 class='mb-5'>
+        However, instead of retaining this value throughout every step of the program, we will be conducting this minimization at every step, thus chooosing the best step length every time.
+      </h5>
+      <h5>
+        Although setting \(\alpha\) to be the global minimizer of \(f(x_k + \alpha p_k) \) would be the ideal choice every time, it is often too expensive to identify this value, similar to how it 
+        is often expensive to find the Hessian matrix in Newton's method. 
+      </h5>
+      <h5>
+        A more practical strategy is to perform an inexact line search to find \(\alpha\) such that there is a sufficient decrease in the objective function f, which is measured by
+        the Armijo condition:
+      </h5>
+      <div class='d-flex justify-content-center mb-3'>
+        <h5 class='mx-auto'>             \(f(x_k + \alpha p_k) \leq f(x_k) + c_1 \alpha \nabla f_k^T p_k\)</h5>
+    </div>
+    <h5>
+      for some constant \(c_1 \in (0,1) \).
+    </h5>
+    <h5>
+      A second requirement, the curvature condition, requires that:
+    </h5>
+    <div class='d-flex justify-content-center mb-3'>
+      <h5 class='mx-auto'>  \( \nabla f(x_k + \alpha_k p_k )^T p_k \geq c_2 \nabla f_k^T p_k \)</h5>
+  </div>
+  <h5>
+    for some constant \(c_2 \in (0,1) \).
+  </h5>
+      <h5>
+        Together, they are known as the Wolfe Conditions:
+      </h5>
+      <div class='d-flex justify-content-center'>
+        <h5 class='mx-auto'>       \(f(x_k + \alpha_k p_k) \leq f(x_k) + c_1\alpha_k \nabla f_k^T p_k\)</h5>
+      </div>
+      <div class='d-flex justify-content-center'>
+        <h5 class='mx-auto'>       \(\nabla f(x_k+\alpha_k p_k)^T p_k \geq c_2 \nabla f_k ^T p_k\)</h5>
+      </div>
+      <h5 class="mb-4">
+        with \( 0 \lt c_1 \lt c_2 \lt 1\).
+      </h5>
+      <h5>
+        Using the Wolfe Conditions to compute \(\alpha_k \) at every step allow the Steepest Descent algorithm to work more efficiently and produce more accurate results. 
+      </h5>
+      <h5 class='mb-5'>
+        However, there are some functions, like the Rosenbrock function, where Steepest Descent does not work well, even with a line search to compute \(\alpha\).
+      </h5>
+      <h3>
+        Rosenbrock
+      </h3>
+      <h5>
+        The Rosenbrock function and its derivatives are defined as:
+      </h5>
+      <div class='d-flex justify-content-center'>
+        <h5 class='mx-auto'>       \(f(x,y) = (1 - x) ^2 + 100(y - x^2)^2\)</h5>
+      </div>
+      <div class='d-flex justify-content-center'>
+        <h5 class='mx-auto'>       \(\nabla f(x, y) = \begin{bmatrix}
+          -400x(y-x^2)-2(1-x) \\
+          200(y-x^2)
+          \end{bmatrix}\)</h5>
+          <h5 class='mx-auto'>       \(\nabla^2 f(x, y) = \begin{bmatrix}
+            -400(y-3x^2)+2 & -400x\\
+            -400x  & 200
+            \end{bmatrix}\)</h5>
+      </div>
+      <h5> which has a minimum at (1,1), which can be verified in the contour plot below.  </h5>
+  </div>
+    <div class="container-fluid" style="width: 90%;">
+    <div id='3dplot'>
+    </div>
+  </div>
+    <div class="container-fluid" style="width: 80%;">
+      <h5>
+        If we run our Steepest-Descent program using the Rosenbrock function, with \(\alpha = 0.001 \)   we discover that the program ends abruptly as there are too many iterations. Currently, the maximum number of iterations
+        allowed in our program is 1000. Raising the limit to 10,000, we can see that the minimum is evaluated to be at \((0.9759247,0.9523313)\) after 7152 iterations, which is not very precise to the actual solution of (1,1) 
+        and also inefficient as it takes too many steps to determine. 
+      </h5>
+      <h5 class='mb-5'>
+        Below is a gif that demonstrates the first few hundred iterations of this on a contour map of the Rosenbrock function, where the red dot is the next iteration value. You can see that, after a while, it seems as if the red dot is barely moving.
+      </h5>
+    </div>
+      <div class='d-flex justify-content-center'>
+        <img class='mx-auto' src='./public/nolinesearch.gif' alt='Rosenbrock without line search'>
+      </div>
+      <div class="container-fluid pt-5" style='width: 80%;' >
+      <h5 >
+        If we set \(\alpha = 0.01\), we discover that the program never produces a result, even if we raise the maximum number of iterations allowed to be 100,000, and will instead oscillate wildly around
+        the minima without ever converging to a solution.
+      </h5>
+    </div>
+    <div class="container-fluid pt-5" style='width: 80%;' >
+      <h5 class='mb-5'> 
+        Even with a line-search method, and updating \(\alpha_k\) at each iteration,  it still takes too many iterations, almost 2500, to reach the solution. When working with large data sets, this becomes extremely inefficient. 
+      </h5>
+      <h5 class='mb-5'>
+        Below is a gif that demonstrates the first few hundred iterations of this. Compared to before, where there is no line-search to calculate \(\alpha\), it seems to move faster towards to the minimum value.
+        However, this is still considerably slow.
+      </h5>
+    </div>
+    <div class='d-flex justify-content-center'>
+      <img class='mx-auto' src='./public/withlinesearch.gif' alt='Rosenbrock with line search'>
+    </div>
+    <div class="container-fluid pt-5" style='width: 80%;' >
+
+      <h5>
+        The reason that steepest descent has problems with Rosenbrocks function is due to the nature of how it chooses its search directions. Steepest descent works by always choosing
+        perpendicular paths as their search directions, as can be seen in our Iteration Values graph from the previous page. 
+      </h5>
+      <h5>
+        When applying steepest descent to Rosenbrock functions or any functions with a curved flat valley leading to the minimum, as shown in the contour plot above, the zig-zagging perpendicular path it chooses
+        is not the most optimal one. This results in the program being slow and often ineffective. 
+      </h5>
+      <h5 class='mb-5'>
+        We've concluded that Steepest-Descent does not work well when working on functions like the Rosenbrock function. What about Newton's method?
+      </h5>
+      <h5>
+        Let us now use Newton's method with 2 variables on the Rosenbrock function and attempt to find the minimum. 
+      </h5>
+      <h5>
+        We start with the initial guess of \(x_0 = \begin{bmatrix} 
+        -1 \\
+        1\end{bmatrix}\). 
+      </h5>
+      <h5 class='mb-4'>
+        Plugging into our gradient and hessian function, we get:
+        </h5>
+        <div class='d-flex justify-content-center'>
+          <h5 class='mx-auto'>       \(\nabla f(-1,1) = \begin{bmatrix}
+            -4 \\
+            0
+            \end{bmatrix}\)</h5>
+            <h5 class='mx-auto'>       \(\nabla^2 f(-1,1) = \begin{bmatrix}
+              802 & 400\\
+              400  & 200
+              \end{bmatrix}\)</h5>
+              <h5 class='mx-auto'>       \((\nabla^2 f(-1,1))^{-1} = \begin{bmatrix}
+                 0.5 &-1 \\
+                  -1& 2.005
+                \end{bmatrix}\)</h5>
+        </div>
+        <h5>
+          Then \(x_1 = x_0 + p_k = \begin{bmatrix} -1 \\ 1\end{bmatrix} - \begin{bmatrix} 0.5 & -1 \\ -1 & 2.005 \end{bmatrix} \begin{bmatrix} -4 \\ 0\end{bmatrix} = 
+          \begin{bmatrix} -1 \\ 1\end{bmatrix} - \begin{bmatrix} -2 \\ 4\end{bmatrix} = \begin{bmatrix} 1 \\ -3 \end{bmatrix}\), and we repeat this process.
+        </h5>
+        <h5>
+          After a few iterations we get the table below.
+        </h5>
+        <div id='container'>
+          <table class='table table-sm'>
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Iteration</th>
+                <th scope="col">\(x_k^T\)</th>
+              </tr>
+            </thead>
+            <tbody id="newton2Table">
+            </tbody>
+          </table>
+        </div> 
+        <h5>
+          The program for this method is located in the newton2.js file
+        </h5>
+        <h5>
+          We can see from our table that using Newton's method, the Rosenbrock function converges to the minimum in less than 3 iterations.
+        </h5>
+        <h5>
+          Similar to what we did for the previous function with 2 variables using Steepest-Descent, let us plot these values to visualize how the search direction is found
+          and how quickly the program converges to the minimum
+        </h5>
+      </div>
+        <div class="container-fluid" style="width: 90%;">
+          <div id='newton2Plot'>
+          </div>
+        </div>
+        <div class="container-fluid" style="width: 80%;">
+          <h5>
+            From the graph, we can see that there is no consistent zig-zag towards the minimum like in steepest-descent. Going back to the example of the bowl from the previous page, the marble will roll directly 
+            into the bottom of the bowl in as few iterations as possible, because the bowl is more circular in nature. 
+          </h5>
+          <h5 class='mb-5'>
+            However, the downsides to Newton's method with 2 variables is still the same as the downsides from before. Computing the Hessian matrix and its inverse at each iteration 
+            can be a very costly computation. In this example, because the hessian matrix is of size \(2 \times 2\), the inverse matrix is easy to calculate for, but would become exponentially harder with more variables.
+
+          </h5>
+      <div class="d-flex">
+        <div class="mr-auto p-2"><button type="button"><a href='index2.html'>Previous</a> </button></div>
+        <div class="p-2"><button type="button"><a href='index4.html'>Next</a> </button></div>
+      </div>
+    </div>
+  </div>
+</body>
+<script type='module' src="./main3.js"></script>
+</html>

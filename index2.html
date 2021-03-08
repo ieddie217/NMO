@@ -1,0 +1,289 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CSC466 Final Project
+  </title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body style="background-color: #fffff1">
+  <div class="container-fluid pt-5" style='width: 80%;' >
+    <h1>
+      Line-Search Algorithms
+    </h1>
+    <h5>
+      Much like the bisection method, line-search algorithms begin with an initial guess/value of where we want the program to begin. It then calculates the
+      next approximated value using the equation
+    </h5>
+    <div class='d-flex justify-content-center'>
+    <h5 class='mx-auto'>
+      \(x_{k+1} = x_k + \alpha_k p_k\)
+    </h5>
+  </div>
+    <h5>
+      where \(k\) is the current iteration,  \(\alpha_k \) is the step length, and \(p_k \) is the direction we want to search for a minimum.
+    </h5>
+    <h5>
+      Using the same function as before, if we were to solve for \(f'(x) = 0\), then we would expect for the minimum to occur at \( x = \frac{9}{4} = 2.25\), as highlighted in the gradient graph below.
+    </h5>
+  </div>
+  <div class="container-fluid" style="width: 90%;">
+    <div id="Gradient Graph">
+    </div>
+  </div>
+  <div class="container-fluid" style='width: 80%;' >
+    <h5>
+      Let us check this using a series of line-search algorithms. 
+    </h5>
+    <h5 class='mb-5' >
+      For line-search algorithms, there are 2 variables that we need to determine. First, the algorithms must find a descent direction, \(p_k\), along which the objective function will be reduced at each iteration.
+      Then, a step length, \(\alpha_k \), will be computed that determines how far \(x\) should move along that direction. 
+    </h5>
+    <h3>
+      Steepest Descent
+    </h3>
+    <h5>
+      The most simple method, steepest descent, sets \(p_k = -\nabla f_k \). From \(x_k\), this is the direction where \(f\) would decrease most rapidly. 
+      For this method, \(\alpha\) can be found in a variety of ways. For now, let us set \(\alpha = 0.01\)
+      and our initial guess to be \(x_0 = 2\). 
+    </h5>
+    <h5>Then \(x_1 = x_0 - (0.01) \cdot f'(2) = 2.04\) and we repeat this process until the difference from one iteration to the next is 
+      sufficiently small.
+    </h5>
+    <div id='container'>
+      <table class='table table-sm'>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Iteration</th>
+            <th scope="col">\(x_k\)</th>
+            <th scope="col">Iteration</th>
+            <th scope="col">\(x_k\)</th>
+          </tr>
+        </thead>
+        <tbody id="steep1Table">
+        </tbody>
+      </table>
+    </div>    
+    <h5>
+      The program for this method is located in the steepDesc1.js file
+    </h5>
+    <h5>
+      Plotting our calculated values onto the graph below, we can see that the \(x_k\) converges to the expected minimum after 41 iterations. 
+    </h5>
+  </div>
+  <div class="container-fluid" style="width: 90%;">
+    <div id="Steepest Descent 1 Variable">
+    </div>
+  </div>
+  <div class="container-fluid" style="width: 80%;">
+    <h5 class='mb-5' >
+      We can see from the graph that at each iteration, the values inch closer and closer to the minimum. 
+    </h5>
+    <h3>
+      Newton
+    </h3>
+    <h5>
+      Using Newton's method, \(p_k = -(\nabla^2 f_k)^{-1} \nabla f_k\). Unlike steepest-descent, the Newton method has a natural step length of \(\alpha = 1\).
+    </h5>
+    <h5> 
+      Let us set our initial guess to be \(x_0 = 2\). Again, we repeat this process
+      until the difference from one iteration to the next is sufficiently small. 
+    </h5>
+    <div id='container'>
+      <table class='table table-sm'>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Iteration</th>
+            <th scope="col">\(x_k\)</th>
+          </tr>
+        </thead>
+        <tbody id="newton1Table">
+        </tbody>
+      </table>
+    </div>    
+    <h5>
+      The program for this method is located in the newton1.js file
+    </h5>
+    <h5>
+      Plotting our calculated values onto the graph below, we can see that \(x_k\) converges to the expected minimum after 5 iterations.
+    </h5>
+  </div>
+  <div class="container-fluid" style="width: 90%;">
+    <div id="Newton Method 1 Variable">
+    </div>
+  </div>
+  <div class="container-fluid mb-5" style="width: 80%;">
+    <h5 class='mb-5'>
+      We can see that there are iteration values on both sides of the expected minimum, unlike the Steepest Descent method, where iteration values only occurred on the left side 
+      of the minimum.
+    </h5>
+    <h5>
+      Comparing the 2 methods, it can be observed that Newton's method arrives at the minimum in much fewer iterations than Steepest-Descent. Steepest-Descent is dependent on \(\alpha\)
+      and often takes too long, as we will later see using Rosenbrock's function as an example. However, the downside of Newton's method is that it requires the Hessian of a function. 
+      If this is easy to solve or is already known, than Newton's method will clearly be more valuable. The problem is that if it is hard to solve for, it may often take even more time to determine the Hessian. 
+    </h5>
+  </div>
+  <div class="container-fluid" style="width: 80%">
+    <h5>
+      The previous example only used a function with 1 variable. 
+    </h5>
+    <h5>Let us consider a function with 2 variables, 
+      </h5>
+      <div class='d-flex justify-content-center'>
+        <h5 class='mx-auto'>           \(f(x) = \frac{1}{2}x_1^2 + \frac
+          {5}{2}x_2^2\) </h5>
+      </div>
+      <div class='d-flex justify-content-center'>
+          <h5 class='mx-auto'> \(\nabla f(x_1, x_2) = \begin{bmatrix}
+           x_1 \\
+            5x_2
+            \end{bmatrix}\) </h5>
+            <h5 class='mx-auto'> \(\nabla^2 f(x_1, x_2) = \begin{bmatrix}
+              1 & 0  \\
+              0 & 5
+               \end{bmatrix}\) </h5>
+      </div>
+      <h5>
+        For the Steepest Descent method, let us take \(x_0 = \begin{bmatrix}
+        5  \\
+        1
+         \end{bmatrix}\)  as our starting point and set \(\alpha = \frac{1}{3}\)
+      </h5>
+      <h5>
+        Then \(x_1 = x_0 + \alpha (-\nabla f(x_0)) = \begin{bmatrix}
+        5  \\
+        1
+         \end{bmatrix}\) - \(\frac
+        {1}{3} \begin{bmatrix}
+        5  \\
+        5
+         \end{bmatrix}\) \(= \begin{bmatrix}
+         3.335  \\
+         -0.665
+          \end{bmatrix}\), and once again we repeat this process.
+      </h5>
+      <div id='container'>
+        <table class='table table-sm'>
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Iteration</th>
+              <th scope="col">\(x_k^T\)</th>
+              <th scope="col">\(f(x_k)\)</th>
+              <th scope="col">\(\nabla f(x_k)^T\)</th>
+            </tr>
+          </thead>
+          <tbody id="steep2Table">
+          </tbody>
+        </table>
+      </div> 
+      <h5>
+        The code for this program is located in steepDesc2.js
+      </h5>   
+      <h5>
+        We can see from our table that using steepest descent, the function converges to the minimum in 26 iterations. 
+      </h5>
+      <h5>
+        Let us plot these values to determine how each iteration is found
+      </h5>
+    </div>
+    <div class="container-fluid" style="width: 90%;">
+      <div id='conPlot'>
+      </div>
+    </div>
+    <div  class="container-fluid" style="width: 80%;">
+      <h5>
+        We can visualize the graph as a oblong bowl, where the center \((0,0)\) is the deepest point, aka the minimum, and the further away from the center, the closer to the top of the bowl
+        you are. We pick any arbitrary point and place a marble there. Since the bowl is oblong, then the marble will zig-zag back and forth, before it finally reaches the bottom. 
+        This zig-zagging path represents the search direction used by the steepest descent method. 
+      </h5>
+      <h5>
+        Starting at the top right of the graph, we have our initial guess of \(x_0 = (5,1)\). 
+      </h5>
+      <h5>Using the steepest descent method, we choose the search direction by calculating \(p_k = -\nabla f(x_k)\), aka the point where the gradient is the most negative and would
+        result in the fastest approach towards finding the minimum,  resulting in \(x_1 = (3.335,-0.665)\)
+      </h5>
+      <h5>
+        It repeats this process until it reaches the minimum at \((0,0)\)
+      </h5>
+      <h5 class='mb-5'>
+        This algorithm works for any number, \(n\), variables in a function.
+      </h5>
+      <h5>
+        Similarly, for the Newton method, let us take \(x_0 = \begin{bmatrix} 5 \\ 1\end{bmatrix}\)  as our starting point.
+      </h5>
+      <h5>
+        Then \(x_1 = x_0 + p_k = \begin{bmatrix}
+        5  \\
+        1
+         \end{bmatrix}\) + \(p_k\), where \(\begin{bmatrix}
+        1 & 0  \\
+        0 & 5
+         \end{bmatrix}p_k = \begin{bmatrix}
+         -5  \\
+         -5
+          \end{bmatrix}\). Then \(p_k =\begin{bmatrix}
+          -5  \\
+          -1
+           \end{bmatrix}\)
+      </h5>
+      <h5>
+        So \(x_1 = \begin{bmatrix}
+        5  \\
+        1
+         \end{bmatrix} + \begin{bmatrix}
+         -5  \\
+         -1
+          \end{bmatrix} = \begin{bmatrix}
+          0  \\
+          0
+           \end{bmatrix}\).
+      </h5> 
+      </h5> 
+      <h5>
+        For this newton method, we can see that it has converged to the minimum in a single iteration.
+      </h5>
+    </div>
+    <div class="container-fluid" style="width: 90%;">
+      <div id='newton2Plot'>
+      </div>
+    </div>
+    <div class="container-fluid" style="width: 80%;" >
+      <h5>
+        Going back to the example of the bowl, while steepest-descent uses an oblong bowl, Newton's method will instead use a circular bowl, and therefore the marble will go directly to the bottom, resulting in the graph above. 
+      </h5>
+      <h5 class='mb-5'>
+        Again, this algorithm works for any number, \(n\), variables in a function.
+      </h5>
+      <h5 class='mb-4'>
+          What happens if we change the alpha value while using Steepest-Descent? 
+      </h5>
+      <h5>
+          If we were to change the alpha value to \(\alpha = 0.1\), the program outputs that a minimum occurs at \((0.0008848,2.067951e-25)\)
+          after 82 iterations.
+      </h5>
+      <h5>
+        Depending on the precision that we wish to have, this would still be considered a correct answer, but would instead take more than 3 times the number of iterations as before. 
+      </h5>
+      <h5>
+       If \(\alpha = 0.66\), the program outputs that a minimum occurs at \((0.0000350944,-9528.09757913)\) after 11 iterations, which is not accurate
+          to the actual solution at all. 
+      </h5>
+      <h5>
+        We can therefore see that \(\alpha\) has a large impact to how effectively the program runs. If \(\alpha\) is too low, then steepest descent will take too long to find 
+        the solution, and if \(\alpha\) is too large, then it either never converges to a minimum, and instead
+        oscillates wildly around the minimum, or will produce inaccurate solutions. 
+      </h5>
+      <h5 class='mb-5'>
+        One way to avoid these scenarios is to constantly update \(\alpha\) at every step of the iteration instead of using it as a constant value throughout the algorithm. 
+      </h5>
+      <div class="d-flex">
+        <div class="mr-auto p-2"><button type="button"><a href='index.html'>Previous</a> </button></div>
+        <div class="p-2"><button type="button"><a href='index3.html'>Next</a> </button></div>
+      </div>
+  </div>
+</body>
+<script type='module' src="./main2.js"></script>
+</html>

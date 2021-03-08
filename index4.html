@@ -1,0 +1,208 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>CSC466 Final Project
+  </title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
+</head>
+
+<body style="background-color: #fffff1">
+  <div class="container-fluid pt-5" style='width: 80%;' >
+      <h1>
+        Trust-Region Algorithms
+      </h1>
+      <h5>
+          An alternative to line search algorithms are trust region algorithms. Using the information gathered about an objective function, \(f\), a model function, \(m_k\),
+          is constructed which behaves very similarly to \(f\) near the point, \(x_k\).
+      </h5>
+      <h5>
+          We first find the candidate step, \(p\), by solving:
+      </h5>
+      <div class='d-flex justify-content-center mb-3'>
+        <h5 class='mx-auto'>     min \(m_k(x_k +p)\), &nbsp&nbsp&nbsp&nbsp where \(x_k + p\) is inside the trust region </h5>
+    </div>
+    <h5>
+        The trust region is usually defined as a ball where \(||p||_2 \leq \Delta_k\)
+    </h5>
+      <h5>
+          The model function, \(m_k\) is usually defined to be a quadratic of the form
+      </h5>
+        <div class='d-flex justify-content-center mb-3'>
+          <h5 class='mx-auto'>     \(m_k(x_k +p) = f_k + p^T \nabla f_k + \frac{1}{2} p^TB_kp     \hspace{2cm} (*) \)</h5>
+      </div>
+      <h5>
+          where \(f_k\) is a scalar, \(\nabla f_k \) is a vector, and \(B_k\) is either the Hessian matrix or an approximation of it.
+      </h5>
+      <!-- <h5>
+        One of the key components of the trust-region algorithm is the choice of the trust-region radius, \(\Delta_k\) at each iteration.
+      </h5>  -->
+      <h5>
+        Given a step \(p_k\) we then define 
+      </h5>
+      <div class='d-flex justify-content-center mb-3'>
+        <h5 class='mx-auto'>    \(\rho_k = \frac{f(x_k) - f(x_k+p_k)}{m_k(0) - m_k(p_k)}\)</h5>
+    </div>
+    <h5 class='mb-4'>
+      The general algorithm for Trust Region methods, which can be found as Algorithm 4.1 in the Nocedal and Wright Textbook, is:
+    </h5>
+    <h5>
+      Given \(\Delta_M > 0, \Delta_0 \in (0, \Delta_M), \) and \( \eta \in [0, \frac{1}{4})\)
+    </h5>
+    <h5>
+      for k = 0,1,2,....
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Obtain \(p_k\) by solving \((*)\)
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Evaluate \(\rho_k\)
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp if \(\rho_k \leq \frac{1}{4}\)
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp\(\Delta_{k+1} = \frac{1}{4}\Delta_k\)
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp else 
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp if \(\rho_k > \frac{3}{4}\) and \(||p_k|| = \Delta_k \)
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp \(\Delta_{k+1} = min(2\Delta_k, \Delta_M)\)
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp else 
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp \(\Delta_{k+1}=\Delta_k \)
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp if \(\rho_k > \eta\)
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp \(x_{k+1} = x_k + p_k\)
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp else 
+    </h5>
+    <h5>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp \(x_{k+1} = x_k\)
+    </h5>
+    <h5 class='mb-5'>
+      end
+    </h5>
+    <h3>
+      Cauchy Point 
+    </h3>
+    <h5>
+      There are many ways that we can solve \((*)\) for \(p_k\). One of them is done by solving for the Cauchy Point 
+    </h5>
+    <div class='d-flex justify-content-center mb-3'>
+      <h5 class='mx-auto'>    \(p_k^C = -\tau_k \frac{\Delta_k}{||\nabla f_k||}\nabla f_k \)</h5>
+  </div>
+  <h5 class='mb-5'>where \(\tau_k = 1\) if \(\nabla f_k^T B_k \nabla f_k \leq 0 \), otherwise \(\tau_k = min(\frac{||\nabla f_k||^3}{\Delta_k \nabla f_k^T B_k \nabla f_k},1) \)</h5>
+  <h3>
+    Branin Function
+  </h3>
+  <h5>
+    Let us use the trust-region method to solve the Branin Function, where the trust-region subproblems are solved via the Cauchy point.
+  </h5>
+  <h5>
+    The Branin Function is defined by:
+  </h5>
+  <div class='d-flex justify-content-center mb-3'>
+    <h5 class='mx-auto'>       \(f(x,y) = (y - 0.129x^2 + 1.6x - 6) ^2 + 6.07cos(x) + 10\)</h5>
+  </div>
+  <div class='d-flex justify-content-center mb-3'>
+
+    <h5 class='mx-auto'>       \(\nabla f(x, y) = \begin{bmatrix}
+      (2 (1.61 - 0.258 x) (-0.129 x^2 + 1.61 x + y - 6) - 6.07 sin(x)\\ 2 (-0.129 x^2 + 1.61 x + y - 6))
+      \end{bmatrix}\)</h5>
+    </div>
+  <div class='d-flex justify-content-center mb-3'>
+    
+      <h5 class='mx-auto'>       \(\nabla^2 f(x, y) = \begin{bmatrix}
+        (2 (1.61 - 0.258 x)^2 - 0.516 (-0.129 x^2 + 1.61 x + y - 6) - 6.07 cos(x) & 2 (1.61 - 0.258 x)\\
+        2 (1.61 - 0.258 x) & 2
+        \end{bmatrix}\)</h5>
+  </div>
+  <h5>
+    The contour map of the function is provided below.
+  </h5>
+  <div class='d-flex justify-content-center'>
+    <img class='mx-auto' src='./public/Branin.png' alt='Branin Function Contour'>
+  </div>
+  <h5>
+    Let us set our starting values to \(x_0 = \begin{bmatrix} 6 \\ 14\end{bmatrix}, \Delta_0 = 2.0, \Delta_M = 5.0, \eta = 0.2\)
+  </h5>
+  <h5>
+    Using the Cauchy point calculation, we compute \(p_k =\begin{bmatrix} -0.2522739904 \\-1.98402566\end{bmatrix} \)
+  </h5>
+  <h5>
+    Then we evaluate \(\rho_k\) to be \(0.999214320051559\), and therefore \(\Delta_{1} = 4.0\)
+  </h5>
+  <h5>
+    Finally, since \(\rho_k > \eta\), then \(x_{1} = x_0 + p_k = \begin{bmatrix}5.7477260\\12.0159743\end{bmatrix} \).
+  </h5>
+  <h5 class='mb-5'> 
+    Repeating this process, we get the table of values below where the minimum occurs at approximately \(x = \begin{bmatrix}3.138 \\ 2.252 \end{bmatrix}\)
+  </h5>
+  <div id='container'>
+    <table class='table table-sm'>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Iteration</th>
+          <th scope="col">\(x_k\)</th>
+          <th scope="col">\(\rho_k\)</th>
+          <th scope="col">\(\Delta_k\)</th>
+          <th scope="col">\(||p_k||\)</th>
+        </tr>
+      </thead>
+      <tbody id="trustRegionTable">
+      </tbody>
+    </table>
+  </div> 
+  <h5> The program for this is located in the trustregion.js file.</h5>
+  <h5>
+    Plotting these iteration values onto the contour map, we can see how the Trust Region with Cauchy point algorithm works. 
+  </h5>
+  <div class='d-flex justify-content-center mb-5'>
+    <img class='mx-auto' src='./public/BraninTrajectory.png' alt='Branin with trajector via cauchy'>
+  </div>
+  <h3 class='mb-3'>
+    Conclusion: Trust Region vs. Line Search
+  </h3>
+  <h5>
+      Comparing the two different types of algorithms, line-search algorithms are objectively more simple to understand as it only requires two variables. </h5>
+      <h5>In line-search algorithms,
+      we first pick the search direction, \(p_k\), then compute the step length, \(\alpha_k\), and update \(x_k\). </h5>
+      <h5>Comparatively, trust region algorithms require more work and computations.</h5>
+      <h5>
+      For trust region methods, we first pick the step size and solve the trust region sub-problem using the approximated model. If the change is acceptable, we then update \(x_k\) as well 
+      as the trust region itself. 
+      </h5>
+      <h5>
+        From the different methods for line search algorithms, although steepest descent is simplest and easy to apply, it is often not idea as it will take too long to reach
+        the solution. Newton's method offers a more practical solution.
+      </h5>
+      <h5>
+        For trust region methods, using the Cauchy point to solve the trust region subproblem is comparable to Newton's method, as both are much more efficient than Steepest Descent. 
+        The main problem with Newton's and Cauchy's, is that both require computation of the Hessian matrix or an approximation to it, which can often be expensive to compute.
+      </h5>
+
+      <div class="d-flex">
+        <div class="mr-auto p-2"><button type="button"><a href='index3.html'>Previous</a> </button></div>
+        <div class="p-2"><button type="button"><a href='index5.html'>Next</a> </button></div>
+      </div>
+    </div>
+  </div>
+</body>
+<script type='module' src="./main4.js"></script>
+</html>

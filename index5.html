@@ -1,0 +1,94 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>CSC466 Final Project
+  </title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
+</head>
+
+<body style="background-color: #fffff1">
+  <div class="container-fluid pt-5" style='width: 80%;' >
+      <h1>
+        Concluding Thoughts and Comments
+      </h1>
+      <h5>
+        Since the majority of programs that are related to mathematical computations are written using MATLAB, I wanted to try something different and see how difficult it is 
+        to write mathematical algorithms and programs in another programming language. Furthermore, since I have been learning web development for the past year, I wanted to 
+        create something that could be used by everyone, without the need for specialized programs. Therefore, I decided to create this very simple set of webpages to demonstrate
+        what we have learned this semester. 
+      </h5>
+      <h5>
+        The first set of difficulties I observed when attempting to write my programs was in how JavaScript dealt with float point number precision.
+      </h5>
+      <h5> Floating point arithmetic 
+        is not always 100% accurate in JavaScript. For an example, in JavaScript, \(0.1 + 0.2 = 0.30000000000000004\), as opposed to  0.3 that is computed in most other programming languages
+       such as MATLAB. 
+      </h5>
+      <h5>
+        Therefore, I occassionally had to do extra multiplication and divisions steps to get the correct solution. For the previous example, I would have to multiple and divide by 10 so that \(\frac{(0.2 \cdot 10 + 0.1 \cdot 10)}{10} = 0.3\)
+      </h5>
+      <h5>
+        Another problem was the lack of mathematical tools available like in MATLAB. 
+      </h5>
+      <h5>
+        The built in Math package is very simple and does not provide functions to solve more complex math, such as calculating the inverse of a matrix, or solving a system
+        of linear equations.
+      </h5>
+      <h5>
+      Instead, I had to either write these functions myself, or use 3rd party JavaScript libraries.
+      </h5>
+      <h5 class='mb-3'>
+        If I could redo the project again, I would choose to use another programming language for the back-end handling of the website, most likely Python, to avoid dealing with
+        the inaccurate floating point precision problems.
+      </h5>
+      <h5> I plan to deploy the existing content in this Final Project into a fully functioning website after I add more content that I didn't have time to do.
+      </h5>
+      <h5>
+        This includes adding more methods for Line-Search and Trust Region algorithms, such as the Quasi-Newton method, BFGS updates, and the Dog-Leg method.
+      </h5>
+      <h5>
+        I hope that this website will serve to establish a better understanding of the material for students. 
+      </h5>
+      <h1>
+        Resources Used:
+      </h1>
+      <h3 class='mb-3'>   
+        Books
+      </h3>
+      <h4>
+        &nbsp&nbsp&nbsp Heath, Michael T. <i>Scientific Computing: An Introductory Survey.</i>
+      <h4 class='mb-4'>
+        &nbsp&nbsp&nbsp Nocedal, Jorge, and Stephen J. Wright. <i>Numerical Optimization.</i> 
+      </h4>
+      <h3 class='mb-3'>
+        JavaScript Libraries
+      </h3>
+      <h4>
+        &nbsp&nbsp&nbsp <a href="https://plotly.com/javascript/">Plotly.js </a>
+      </h4>
+      <h4>
+        &nbsp&nbsp&nbsp <a href="https://mathjs.org/"> Math.js</a>
+      </h4>
+      <h4>
+        &nbsp&nbsp&nbsp <a href="https://www.mathjax.org/#gettingstarted"> MathJax</a>
+      </h4>
+      <h4 class='mb-4'>
+        &nbsp&nbsp&nbsp <a href="https://getbootstrap.com/"> Bootstrap</a> 
+      </h4>
+      <h3 class='mb-3'>
+        Other
+      </h3>
+      <h4>
+        &nbsp&nbsp&nbsp <a href="https://optimization.mccormick.northwestern.edu/index.php/Main_Page"> https://optimization.mccormick.northwestern.edu/index.php/Main_Page</a>
+      </h4>
+      <div class="d-flex">
+        <div class="mr-auto p-2"><button type="button"><a href='index4.html'>Previous</a> </button></div>
+      </div>
+  </div>
+</body>
+</html>

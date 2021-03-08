@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CSC466 Final Project
+  </title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body style="background-color: #fffff1">
+  <div class="container-fluid pt-5" style='width: 80%;' >
+    <h5>
+      For my final project,I have decided to build a small website that visualizes how the different methods we learned this semester work. 
+      As a visual learner myself, I found the methods easiest to understand if I could see exactly how each solution was achieved and hope that this website can help 
+      others in the future.  
+    </h5>
+  </div>
+  <div class="container-fluid" style='width: 80%;' >
+    <h5 class='mb-3'>
+      The first few examples will be using the functions:
+    </h5>
+    <div class='d-flex justify-content-center mb-3' >
+      <h5 class='mx-auto'> \(f(x) = x^4 -3x^3 + 2\)</h5>
+      <h5 class='mx-auto'> \(f'(x) = 4x^3 - 9x^2\)</h5>
+      <h5 class='mx-auto'> \(f''(x) = 12x^2 - 18x\)</h5>
+    </div>
+      <h3 class='mb-3'>
+        Bisection Method
+      </h3>
+      <h5>
+        While the Bisection Method doesn't find the minimum of a function much like the other methods we learned this semester do, it serves as a good starting point in understanding
+        how the other algorithms work to find a solution. Instead of finding the minimizer, the bisection method finds the root of a function. 
+      </h5>
+      <h5>
+        For the Bisection Method to work, it requires that we start with 2 numbers, \(a\) and \(b\), such that \(f(a)\) and \(f(b)\) have opposite signs.
+      </h5>
+      <h5>
+         For the provided function, we choose \(a = \frac{1}{2}\) and \(b = 2\). We then take the midpoint, \(c = \frac{a+b}{2} = 1.25\) and evaluate the function at that point. 
+        We then examine the sign of \(f(c)\) and replace either \((a,f(a))\) or  \((b,f(b))\), where the signs of the function are the same,  and repeat the process.
+      </h5>
+      <h5>
+        Since \(f(c)= -1.4179 \) 
+        and \(f(b)= -6 \), then we set \(b=c\) and repeat this process. We do this until \(|f(c)|\) is sufficiently small. 
+      </h5>
+      <h5>
+        From the table below, we can see that \(c\) converges to 1, which is the root of our function, after 33 iterations. 
+      </h5>
+      <div id='container'>
+        <table class='table table-sm'>
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Iteration</th>
+              <th scope="col">c</th>
+              <th scope="col">f(c)</th>
+              <th scope="col">Iteration</th>
+              <th scope="col">c</th>
+              <th scope="col">f(c)</th>
+            </tr>
+          </thead>
+          <tbody id="bisectionTable">
+          </tbody>
+        </table>
+      </div>    
+    <h5 >
+      The program for the bisection method can be found in the bisect.js file. 
+    </h5>
+    <h5>
+      <h1>
+
+      </h1>
+    </h5>
+    <h5>
+      If we plot the values onto the function graph, from the figure below, we can see that at each iteration, the value of \(c\) gets closer and closer to our root.
+    </h5>
+  </div>
+  <div class="container-fluid" style="width: 90%;">
+    <div id='Bisect' >
+    </div>
+  </div>
+  <div class="container-fluid" style='width: 80%;' >
+    <h5>
+      Starting with our intial points (\(a,b)\), the bisection method calculates a new midpoint at each iteration and replaces one of a or b.
+    </h5>
+    <h5>
+      We can see from the graph that the iteration values during the first few iterations of our program are the furthest away from the root. At each iteration, the midpoint gets calculated
+      so that it inches closer and closer to the root until we find the solution.
+    </h5>
+    <h5 class='mb-5'>
+       Using a similar iterative approach, we will use a series of different methods to determine the minimum of an objective function, and visually see how each iteration will attempt
+       to get closer and closer to the solution.
+    </h5>
+    <div class="d-flex flex-row-reverse">
+      <div class="p-2"><button type="button"><a href='index2.html'>Next</a> </button></div>
+    </div>
+</body>
+<script type='module' src="./main.js"></script>
+</html>
