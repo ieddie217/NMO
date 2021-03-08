@@ -2,6 +2,7 @@
  export function twonorm(a)  {
     return Math.sqrt(dotprod(a, a));
 }
+
 export function dotprod(a, b) {
     var dp = 0;
     for (var i = 0; i < a.length; ++i) {
