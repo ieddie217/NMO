@@ -1,2 +1,5 @@
 # NMO
-Basic intro to numerical methods for optimization problems
+
+This is a basic introduction to different numerical methods used to optimize problems that I learned in CSC466. 
+
+
